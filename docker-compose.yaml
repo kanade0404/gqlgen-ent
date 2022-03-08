@@ -1,0 +1,27 @@
+version: '3'
+services:
+  db:
+    image: postgres:14.1
+    container_name: gqlgen_ent_postgres
+    volumes:
+#      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./database/data:/var/lib/postgresql/data
+    ports:
+      - "55432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+  backend:
+    depends_on:
+      - db
+    build: .
+    env_file: .env
+    environment:
+      - LOG_LEVEL=info
+      - ENV=local
+      - GOPATH=/go
+    volumes:
+      - ./:/main
+    tty: true
+    ports:
+      - "8080:8080"

@@ -1,0 +1,39 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+scalar Time
+
+type Car {
+  id: ID!
+  model: String!
+  registeredAt: Time!
+  user: User!
+}
+
+type Group {
+  id: ID!
+  name: String!
+  users: [User!]!
+}
+
+type User {
+  id: ID!
+  name: String!
+  age: Int!
+  groups: [Group!]!
+}
+
+type Query {
+  cars: [Car!]!
+}
+
+input NewCar {
+  model: String!
+  registered_at: Time!
+  userId: ID!
+}
+
+type Mutation {
+  createCar(input: NewCar!): Car!
+}
